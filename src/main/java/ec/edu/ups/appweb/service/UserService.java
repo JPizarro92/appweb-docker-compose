@@ -17,6 +17,7 @@ import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 
 import ec.edu.ups.appweb.business.PersonaONLocal;
@@ -31,6 +32,7 @@ public class UserService {
 	@POST
 	@Path("register")
 	@Counted(description="Registro de usuarios", absolute= true)
+	@Traced(operationName = "Traced Registro User")
 	@Timed(name="Register-time", description="Tiempo de registro de usuario", unit=MetricUnits.MILLISECONDS, absolute=true)
 	@APIResponse(
 			responseCode = "200",
@@ -51,6 +53,7 @@ public class UserService {
 	@GET
 	@Path("listado")
 	@Counted(description="Lectura de usuarios", absolute= true)
+	@Traced(operationName = "TJ Listado Users")
 	@Timed(name="ReadUsers-time", description="Tiempo de recuperación de usuarios", unit=MetricUnits.MILLISECONDS, absolute=true)
 	@APIResponse(
 			responseCode = "200",

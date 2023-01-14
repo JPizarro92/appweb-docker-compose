@@ -21,6 +21,9 @@ RUN echo "Starting WildFly server" && \
       curl --location --output /tmp/postgresql-42.2.16.jar --url https://jdbc.postgresql.org/download/postgresql-42.2.16.jar && \
       $JBOSS_CLI --connect --command="/extension=org.wildfly.extension.microprofile.openapi-smallrye:add" && \
       $JBOSS_CLI --connect --command="/subsystem=microprofile-openapi-smallrye:add" && \
+      $JBOSS_CLI --connect --command="/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=jaeger:add(host=jaegertracingio, port=6831)" && \
+      $JBOSS_CLI --connect --command="/subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger-appweb:add(sampler-type=const, sampler-param=1, reporter-log-spans=true, sender-binding=jaeger)" && \
+      $JBOSS_CLI --connect --command="/subsystem=microprofile-opentracing-smallrye:write-attribute(name=default-tracer, value=jaeger-appweb)" && \
       $JBOSS_CLI --connect --command="/subsystem=undertow/server=default-server/ajp-listener=ajp-listener:add(socket-binding=ajp, scheme=https, enabled=true)" && \
       $JBOSS_CLI --connect --command="/subsystem=undertow:write-attribute(name=statistics-enabled,value=true)" && \
       $JBOSS_CLI --connect --command="module add --name=org.postgres --resources=/tmp/postgresql-42.2.16.jar --dependencies=javax.api,javax.transaction.api" && \
@@ -42,8 +45,7 @@ RUN echo "Starting WildFly server" && \
       rm -f /tmp/*.jar
 
 COPY maven/${project.build.finalName}.${project.packaging} ${JBOSS_HOME}/standalone/deployments/
-COPY standalone-microprofile-jaeger.xml /opt/jboss/wildfly/standalone/configuration/
+
 EXPOSE 8080
 EXPOSE 8009
 EXPOSE 9990
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-c", "standalone.xml", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

@@ -18,7 +18,7 @@ services:
       - pg_data2:/var/lib/postgresql/data
 
   srvwildfly:
-    image: appweb
+    image: jorgepizarro92/appweb
     container_name: srvwildfly
     hostname: srvwildfly
     environment:
@@ -35,12 +35,14 @@ services:
       - datalogger_net
   
   srvfrontend:
-    image: frontend
+    image: jorgepizarro92/frontangular
     container_name: srvfrontend
     hostname: srvfrontend
     ports:
       - "3000:80"
       - "444:443"
+    networks:
+      - datalogger_net
   
   swaggerui:
     depends_on:
@@ -48,6 +50,8 @@ services:
     image: swaggerapi/swagger-ui
     ports:
       - 8888:8080
+    networks:
+      - datalogger_net
 
   swaggereditor:
     depends_on:
@@ -55,6 +59,8 @@ services:
     image: swaggerapi/swagger-editor
     ports:
       - 9999:8080
+    networks:
+      - datalogger_net
 
   jaegertracingio:
     depends_on:
@@ -63,8 +69,10 @@ services:
     ports:
       - 6831:6831/udp
       - 16686:16686
+    networks:
+      - datalogger_net
   
-  admin:
+  pgadmin:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: info@jasoft.ec
