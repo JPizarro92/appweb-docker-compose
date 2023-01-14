@@ -5,13 +5,8 @@ RUN echo "Starting WildFly server" && \
       $JBOSS_CLI --connect --command="/extension=org.wildfly.extension.microprofile.openapi-smallrye:add" && \
       $JBOSS_CLI --connect --command="/subsystem=microprofile-openapi-smallrye:add" && \
       $JBOSS_CLI --connect --command="/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=jaeger:add(host=jaegertracingio, port=6831)" && \
-<<<<<<< HEAD
       $JBOSS_CLI --connect --command="/subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger-appweb:add(sampler-type=const, sampler-param=1, reporter-log-spans=true, sender-binding=jaeger)" && \
       $JBOSS_CLI --connect --command="/subsystem=microprofile-opentracing-smallrye:write-attribute(name=default-tracer, value=jaeger-appweb)" && \
-=======
-      $JBOSS_CLI --connect --command="/subsystem=microprofile-opentracing-smallrye/jaeger-tracer=jaeger-demoapp:add(sampler-type=const, sampler-param=1, reporter-log-spans=true, sender-binding=jaeger)" && \
-      $JBOSS_CLI --connect --command="/subsystem=microprofile-opentracing-smallrye:write-attribute(name=default-tracer, value=jaeger-demoapp)" && \
->>>>>>> f7547bb9563e899c40bafb88659dcec8b7a867a8
       $JBOSS_CLI --connect --command="/subsystem=undertow/server=default-server/ajp-listener=ajp-listener:add(socket-binding=ajp, scheme=https, enabled=true)" && \
       $JBOSS_CLI --connect --command="/subsystem=undertow:write-attribute(name=statistics-enabled,value=true)" && \
       $JBOSS_CLI --connect --command="module add --name=org.postgres --resources=/tmp/postgresql-42.2.16.jar --dependencies=javax.api,javax.transaction.api" && \
@@ -30,7 +25,6 @@ RUN echo "Starting WildFly server" && \
         --enabled=true" && \
       $JBOSS_CLI --connect --command=":shutdown" && \
       rm -rf $JBOSS_HOME/standalone/configuration/standalone_xml_history/ $JBOSS_HOME/standalone/log/* && \
-<<<<<<< HEAD
       rm -f /tmp/*.jar
 
 COPY maven/${project.build.finalName}.${project.packaging} ${JBOSS_HOME}/standalone/deployments/
@@ -38,6 +32,3 @@ COPY maven/${project.build.finalName}.${project.packaging} ${JBOSS_HOME}/standal
 EXPOSE 8080
 EXPOSE 8009
 EXPOSE 9990
-=======
-      rm -f /tmp/*.jar
->>>>>>> f7547bb9563e899c40bafb88659dcec8b7a867a8
