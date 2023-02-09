@@ -189,7 +189,7 @@
 		<dependency>
 			<groupId>jakarta.json</groupId>
 			<artifactId>jakarta.json-api</artifactId>
-			<version>1.1.6</version>
+			<version>1.1.6</version><!--$NO-MVN-MAN-VER$-->
 			<scope>provided</scope>
 		</dependency>
         
@@ -210,7 +210,7 @@
 		<dependency>
 			<groupId>org.eclipse.microprofile.config</groupId>
 			<artifactId>microprofile-config-api</artifactId>
-			<version>1.4</version>
+			<version>1.4</version><!--$NO-MVN-MAN-VER$-->
 			<scope>provided</scope>
 		</dependency>
 		

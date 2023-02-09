@@ -20,6 +20,7 @@ public class PersonaDAO {
 		em.persist(p);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Persona> getUsers(){
 		List<Persona> personas = new ArrayList<Persona>();
 		String jpql = "SELECT op FROM Persona op";

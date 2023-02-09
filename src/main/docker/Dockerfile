@@ -1,3 +1,18 @@
+FROM jboss/wildfly
+ENV WILDFLY_USER user
+ENV WILDFLY_PASS userPassword
+
+ENV DS_NAME apirestDS
+ENV DS_USER apirest
+ENV DS_PASS apirest
+ENV DS_URI jdbc:postgresql://srvdb/apirest
+
+ENV JBOSS_CLI $JBOSS_HOME/bin/jboss-cli.sh
+ENV DEPLOYMENT_DIR $JBOSS_HOME/standalone/deployments/
+
+RUN echo "Adding WildFly administrator"
+RUN $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
+
 RUN echo "Starting WildFly server" && \
       bash -c '$JBOSS_HOME/bin/standalone.sh -c standalone.xml &' && \
       bash -c 'until `$JBOSS_CLI -c ":read-attribute(name=server-state)" 2> /dev/null | grep -q running`; do echo `$JBOSS_CLI -c ":read-attribute(name=server-state)" 2> /dev/null`; sleep 1; done' && \
