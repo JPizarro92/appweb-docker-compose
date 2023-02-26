@@ -5,7 +5,8 @@ ENV WILDFLY_PASS userPassword
 ENV DS_NAME apirestDS
 ENV DS_USER apirest
 ENV DS_PASS apirest
-ENV DS_URI jdbc:postgresql://srvdb/apirest
+#ENV DS_URI jdbc:postgresql://srvdb/apirest
+ENV DS_URI jdbc:postgresql://10.182.0.5:5432/apirest
 
 ENV JBOSS_CLI $JBOSS_HOME/bin/jboss-cli.sh
 ENV DEPLOYMENT_DIR $JBOSS_HOME/standalone/deployments/
